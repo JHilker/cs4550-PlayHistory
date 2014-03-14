@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = false
+[branch "master"]
+[remote "heroku"]
+	url = git@heroku.com:cs4550.git
+	fetch = +refs/heads/*:refs/remotes/heroku/*
+[remote "origin"]
+	url = git@github.com:JHilker/cs4550-PlayHistory.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

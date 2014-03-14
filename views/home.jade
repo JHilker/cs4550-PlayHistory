@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 Board Game Play History
+  p.lead.italic
+    | This site is currently under construction
+  p.lead
+    | A web application designed to help you keep track of your play history of various board games.
+    br
+    | You will be able to use this application to keep track of:
+  ul.lead
+    li: | Your collection
+    li: | How often you play games
+    li: | The scores of yourself and other players
+  if !user
+    p.lead
+      | Please create an account to start using Play History!
+  else
+    p.lead
+      | Please use the top navigation to manage your information.
