@@ -20,6 +20,7 @@ node_modules
 .DS_Store
 Thumbs.db
 
+config/secrets.js
 public/css/styles.css
 
 builtAssets
