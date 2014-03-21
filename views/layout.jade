@@ -6,10 +6,10 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='description', content='')
     meta(name='author', content='')
-    title #{title} | Hackathon Starter
+    title #{title} | Play History
     != css('styles')
     != js('application')
-  body
+  body(data-controller=controller, data-action=action)
     #wrap
       include partials/navigation
       .container
