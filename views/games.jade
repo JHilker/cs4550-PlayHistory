@@ -8,3 +8,16 @@ block content
     | This page will allow you to query an api to find and add games you own.
     | Once you have games added to your collection, you will be able to start
     | recording plays.
+
+  form.form-inline(role="form", action="javascript:PLAYHISTORY.games.searchBoardGameGeek()")
+    .form-group
+      label.sr-only(for="gameSearch") Game Search
+      input#gameSearch.form-control(placeholder="Type in a name", type="text")
+
+    button#searchButton.btn.btn-default Search
+    span.help-block Spaces in search currently broken due to the yql script.
+
+  table#searchResults.table
+    tr
+      th Name
+      th Image
