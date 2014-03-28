@@ -21,11 +21,14 @@ boardGameGeek = {
     var root = 'https://query.yahooapis.com/v1/public/yql?q=';
     var yql = 'select * from xml where url="' + url + '"';
     var proxy_url = root + encodeURIComponent(yql) + '&format=json&diagnostics=false';
+    console.log(proxy_url);
     return proxy_url;
   },
 
   proxySearchUrl: function(query) {
-    return this.proxyUrl('http://www.boardgamegeek.com/xmlapi2/search?type=boardgame,boardgameexpension&query=' + query);
+    // Escape the query so that it makes it to the server without being unescaped
+    var escapeQuery = encodeURIComponent(query);
+    return this.proxyUrl('http://www.boardgamegeek.com/xmlapi2/search?type=boardgame,boardgameexpension&query=' + escapeQuery);
   },
 
   proxyItemUrl: function(id) {
