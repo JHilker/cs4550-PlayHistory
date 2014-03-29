@@ -25,7 +25,9 @@ boardGameGeek = {
   },
 
   proxySearchUrl: function(query) {
-    return this.proxyUrl('http://www.boardgamegeek.com/xmlapi2/search?type=boardgame,boardgameexpension&query=' + query);
+    // Escape the query so that it makes it to the server without being unescaped
+    var escapeQuery = encodeURIComponent(query);
+    return this.proxyUrl('http://www.boardgamegeek.com/xmlapi2/search?type=boardgame,boardgameexpension&query=' + escapeQuery);
   },
 
   proxyItemUrl: function(id) {

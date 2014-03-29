@@ -378,3 +378,21 @@ exports.postForgot = function(req, res, next) {
     res.redirect('/forgot');
   });
 };
+
+/**
+ * POST /account/games/add
+ * Add game to user
+ */
+
+exports.postAddGame = function(req, res, next) {
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+    if (req.body.gameId && !(user.games.indexOf(req.body.gameId) >= 0)) user.games.push(req.body.gameId);
+
+    user.save(function(err) {
+      if (err) return next(err);
+    });
+
+    res.json({ success: true })
+  });
+};
