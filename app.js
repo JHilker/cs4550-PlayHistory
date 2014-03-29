@@ -125,6 +125,8 @@ app.get('/credits', creditsController.getCredits);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 
+app.post('/account/games/add', passportConf.isAuthenticated, userController.postAddGame);
+
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);

@@ -1,7 +1,16 @@
 //= require lib/boardGameGeek.js
 
 PLAYHISTORY.games = {
-  init: function() {},
+  init: function() {
+    var self = this;
+    $.each($('#ownedGames').data('games'), function(index, gameId) {
+      boardGameGeek.getGame(gameId, function(data) {
+        var $row = $('<tr>');//, { id: 'game-' + gameId, class: 'result' });
+        $row.append($('<td>', { class: 'gameLink' }).append($('<a>', { href: self.boardGameGeekUrl(data.items.item), text: data.items.item.name[0] ? data.items.item.name[0].value : data.items.item.name.value })));
+        $('#ownedGamesTable').append($row);
+      });
+    });
+  },
   // TODO: Cache results if people go back to page from external site?
 
   searchBoardGameGeek: function() {
@@ -28,6 +37,8 @@ PLAYHISTORY.games = {
         $row.append($('<td>', { class: 'gameThumbnail' }));
         $('#searchResults').append($row);
       }
+
+      $('.addGameButton').click(self.addGame);
     });
   },
 
@@ -40,12 +51,20 @@ PLAYHISTORY.games = {
     var $row = $('<tr>', { id: 'game-' + game.id, class: 'result' });
     $row.append($('<td>', { class: 'gameLink' }).append($('<a>', { href: this.boardGameGeekUrl(game), text: game.name.value })));
     $row.append($('<td>', { class: 'gameThumbnail' }));
+    $row.append($('<td>').append($('<button>', { class: 'addGameButton btn btn-primary', text: 'Add to Collection', 'data-id': game.id })));
     $('#searchResults').append($row);
 
     boardGameGeek.getGame(game.id, function(data) {
       if (data.items.item.thumbnail) {
         $('#game-' + data.items.item.id + ' .gameThumbnail').append($('<img>', { src: data.items.item.thumbnail }));
       }
+    });
+  },
+
+  addGame: function(event) {
+    gameId = $(this).data('id');
+    $.post( "account/games/add", { _csrf: $('#csrf').val(), gameId: gameId }, function( data ) {
+      var x = data;
     });
   }
 }
