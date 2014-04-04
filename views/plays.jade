@@ -9,3 +9,43 @@ block content
     | a date, a list of players(which can be friends), a list of scores (for each player),
     | and a game (either one in your collection, a friend's collection, or a guest's)
 
+  ul#playsTabs.nav.nav-tabs
+    li.active
+      a(href="#pastPlaysTab") Past Plays
+    li
+      a(href="#recordPlayTab") Record a Play
+
+  .tab-content
+    #pastPlaysTab.tab-pane.active
+      h4 Past Plays
+
+    #recordPlayTab.tab-pane
+      h4 Record a Play
+      span WIP - Not currently working
+      #ownedGames(class="hidden", data-games=games)
+      #allUsers(class="hidden", data-allUsers=allUsers)
+
+      form(role="form", action="javascript:PLAYHISTORY.plays.createPlay()")
+        input(id='csrf', type='hidden', name='_csrf', value=token)
+        .form-group
+          label(for=gameSelect) Game
+          select#gameSelect.form-control
+
+        .input-group.date
+          label(for=dateSelect) Date
+          input#date.form-control(type='text')
+          span.input-group-addon
+            i.fa.fa-th
+
+        .form-group
+          label(for=playersSelect) Players
+          select#playersSelect.form-control(multiple=true)
+            for user in allUsers
+              option(value=user._id) #{user.email}
+        .form-group
+          label(for=playersSelect) Players
+          select#playersSelect.form-control(multiple=true)
+            for user in allUsers
+              option(value=user._id) #{user.email}
+
+        button#submitButton.btn.btn-default Submit

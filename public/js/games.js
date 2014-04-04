@@ -96,7 +96,7 @@ PLAYHISTORY.games = {
     }}, function( data ) {
       var parent = $(self).parent();
       parent.empty();
-      parent.text('Already in Collection');
+      parent.text('Added to Collection');
 
       PLAYHISTORY.games.ownedGames.push(data);
       PLAYHISTORY.games.displayOwnedGame(data);
