@@ -9,25 +9,37 @@ block content
     | Once you have games added to your collection, you will be able to start
     | recording plays.
 
-  h4 In Collection
-  #ownedGames(class="hidden", data-games=user.games)
-  table#ownedGamesTable.table
-    tr
-      th Name
+  ul#gamesTabs.nav.nav-tabs
+    li.active
+      a(href="#collectionTab") In Collection
+    li
+      a(href="#findMoreTab") Find More
 
-  h4 Find More
+  .tab-content
+    #collectionTab.tab-pane.active
+      h4 In Collection
+      #ownedGames(class="hidden", data-games=games)
+      table#ownedGamesTable.table
+        tr
+          th Name
+          th Year Published
+          th Image
 
-  form.form-inline(role="form", action="javascript:PLAYHISTORY.games.searchBoardGameGeek()")
-    .form-group
-      label.sr-only(for="gameSearch") Game Search
-      input#gameSearch.form-control(placeholder="Type in a name", type="text")
+    #findMoreTab.tab-pane
+      h4 Find More
 
-    button#searchButton.btn.btn-default Search
+      form.form-inline(role="form", action="javascript:PLAYHISTORY.games.searchBoardGameGeek()")
+        .form-group
+          label.sr-only(for="gameSearch") Game Search
+          input#gameSearch.form-control(placeholder="Type in a name", type="text")
 
-  input(id='csrf', type='hidden', name='_csrf', value=token)
+        button#searchButton.btn.btn-default Search
 
-  table#searchResults.table
-    tr
-      th Name
-      th Image
-      th Add Game
+      input(id='csrf', type='hidden', name='_csrf', value=token)
+
+      table#searchResults.table
+        tr
+          th Name
+          th Year Published
+          th Image
+          th Add Game

@@ -3,7 +3,6 @@ var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 
 var userSchema = new mongoose.Schema({
-  // _id: Number,
   email: { type: String, unique: true, lowercase: true },
   password: String,
 
@@ -22,7 +21,7 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
-  games: [ Number ],
+  games: [{type: mongoose.Schema.Types.ObjectId, ref: 'Game'}],
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
