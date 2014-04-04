@@ -1,4 +1,5 @@
 var User = require('../models/User');
+var Game = require('../models/game');
 
 /**
  * GET /games
@@ -8,10 +9,12 @@ var User = require('../models/User');
 var controller = 'games';
 
 exports.getGames = function(req, res) {
-  res.render('games', {
-    title: 'My Games',
-    // games: req.user.games,
-    controller: controller,
-    action: 'get'
+  Game.find({ "_id": { $in: req.user.games }}, function (err, games) {
+    res.render('games', {
+      title: 'My Games',
+      games: games,
+      controller: controller,
+      action: 'get'
+    });
   });
 };
