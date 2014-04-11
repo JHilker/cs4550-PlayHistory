@@ -18,12 +18,20 @@ block content
   .tab-content
     #pastPlaysTab.tab-pane.active
       h4 Past Plays
+      #pastPlays(class="hidden", data-plays=plays)
+      table#pastPlaysTable.table
+        tr
+          th Game
+          th Date
+          th Players
 
     #recordPlayTab.tab-pane
       .container-fluid
         h4 Record a Play
         #ownedGames(class="hidden", data-games=games)
         #allUsers(class="hidden", data-allUsers=allUsers)
+
+        #formInfo
 
         form(role="form", action="javascript:PLAYHISTORY.plays.createPlay()")
           input(id='csrf', type='hidden', name='_csrf', value=token)
@@ -44,7 +52,8 @@ block content
           .row
             .col-md-4
               .form-group
-                label(for=playersSelect) Players
+                label(for=playersSelect) Other Players
+                #user(data-user=user)
                 select#playersSelect.form-control(multiple=true)
                   for user in allUsers
                     option(value=user._id) #{user.email}

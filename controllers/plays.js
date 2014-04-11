@@ -12,15 +12,20 @@ var controller = 'plays';
  */
 
 exports.getPlays = function(req, res) {
-  User.find({}, function (err, users) {
+  User.find({ _id: {'$ne': req.user.id }}, function (err, otherUsers) {
     Game.find({ "_id": { $in: req.user.games }}, function (err, games) {
-      res.render('plays', {
-        title: 'My Plays',
-        games: games,
-        allUsers: users,
-        controller: controller,
-        action: 'get'
-      });
+      // Player.find({ "user":  req.user.id }, function(err, players) {
+        Play.find({ "players": req.user.id }).populate('players game').exec(function(err, plays) {
+          res.render('plays', {
+            title: 'My Plays',
+            games: games,
+            allUsers: otherUsers,
+            plays: plays,
+            controller: controller,
+            action: 'get'
+          });
+        });
+      // });
     });
   });
 };
@@ -34,19 +39,20 @@ exports.getPlays = function(req, res) {
 exports.postPlay = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
-    Game.find({ bggId: req.body.bggId }, function(err, game) {
+    Game.findOne({ bggId: req.body.bggId }, function(err, game) {
       var playersArray  = [];
       _.each(req.body.players, function(playerID, index){
-        var newPlayer = new Player({
-          score: 0,
-          user: playerID
-        });
-        newPlayer.save(function(err) {
-          if (err) {
-            if (err) return next(err);
-          }
-        });
-        playersArray.push(newPlayer._id);
+        // var newPlayer = new Player({
+        //   score: 0,
+        //   user: playerID
+        // });
+        // newPlayer.save(function(err) {
+        //   if (err) {
+        //     if (err) return next(err);
+        //   }
+        // });
+        // playersArray.push(newPlayer._id);
+        playersArray.push(playerID);
       });
 
       var newPlay = new Play({
@@ -59,9 +65,16 @@ exports.postPlay = function(req, res, next) {
         if (err) {
           if (err) return next(err);
         }
+
+        Play.findById(newPlay._id).populate('players game').exec(function(err, play) {
+          console.log(play);
+          res.json(play);
+        });
       });
 
-      res.json(newPlay);
+
+
+      // res.json(newPlay.populate('players game'));
     });
   });
 };
