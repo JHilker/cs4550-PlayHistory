@@ -119,6 +119,7 @@ app.post('/signup', userController.postSignup);
 
 app.get('/games', passportConf.isAuthenticated, gamesController.getGames);
 app.get('/plays', passportConf.isAuthenticated, playsController.getPlays);
+app.post('/plays', passportConf.isAuthenticated, playsController.postPlay);
 app.get('/friends', passportConf.isAuthenticated, friendsController.getFriends);
 
 app.get('/credits', creditsController.getCredits);

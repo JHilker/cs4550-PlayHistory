@@ -1,15 +1,11 @@
 var mongoose = require('mongoose');
-
-var playerSchema = new mongoose.Schema({
-  score: Number,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-})
+var Player = require('../models/player');
 
 var playSchema = new mongoose.Schema({
-  game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' }
+  game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
   date: Date,
-  players: [Player]
+  players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }]
 });
 
 module.exports = mongoose.model('Play', playSchema);
-module.exports = mongoose.model('Player', playerSchema);
+

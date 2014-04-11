@@ -17,6 +17,13 @@ PLAYHISTORY.plays = {
   },
 
   createPlay:function() {
-
+    $.post( "plays", {
+      _csrf: $('#csrf').val(),
+      bggId: $('#gameSelect').val(),
+      date: $('#date').val(),
+      players: $('#playersSelect').val()
+    }, function( data ) {
+      var x = data;
+    });
   }
 }
