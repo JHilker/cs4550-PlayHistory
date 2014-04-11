@@ -18,34 +18,44 @@ block content
   .tab-content
     #pastPlaysTab.tab-pane.active
       h4 Past Plays
+      #pastPlays(class="hidden", data-plays=plays)
+      table#pastPlaysTable.table
+        tr
+          th Game
+          th Date
+          th Players
 
     #recordPlayTab.tab-pane
-      h4 Record a Play
-      span WIP - Not currently working
-      #ownedGames(class="hidden", data-games=games)
-      #allUsers(class="hidden", data-allUsers=allUsers)
+      .container-fluid
+        h4 Record a Play
+        #ownedGames(class="hidden", data-games=games)
+        #allUsers(class="hidden", data-allUsers=allUsers)
 
-      form(role="form", action="javascript:PLAYHISTORY.plays.createPlay()")
-        input(id='csrf', type='hidden', name='_csrf', value=token)
-        .form-group
-          label(for=gameSelect) Game
-          select#gameSelect.form-control
+        #formInfo
 
-        .input-group.date
-          label(for=dateSelect) Date
-          input#date.form-control(type='text')
-          span.input-group-addon
-            i.fa.fa-th
+        form(role="form", action="javascript:PLAYHISTORY.plays.createPlay()")
+          input(id='csrf', type='hidden', name='_csrf', value=token)
+          .row
+            .col-md-4
+              .form-group
+                label(for=gameSelect) Game
+                select#gameSelect.form-control
+                p.help-block Add more games via the game page
 
-        .form-group
-          label(for=playersSelect) Players
-          select#playersSelect.form-control(multiple=true)
-            for user in allUsers
-              option(value=user._id) #{user.email}
-        .form-group
-          label(for=playersSelect) Players
-          select#playersSelect.form-control(multiple=true)
-            for user in allUsers
-              option(value=user._id) #{user.email}
+          .row
+            .col-md-4
+              .input-group.date
+                input#date.form-control(type='text', placeholder='Date')
+                span.input-group-addon
+                  i.fa.fa-th
 
-        button#submitButton.btn.btn-default Submit
+          .row
+            .col-md-4
+              .form-group
+                label(for=playersSelect) Other Players
+                #user(data-user=user)
+                select#playersSelect.form-control(multiple=true)
+                  for user in allUsers
+                    option(value=user._id) #{user.email}
+
+          button#submitButton.btn.btn-default Submit

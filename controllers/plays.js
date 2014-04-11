@@ -1,5 +1,8 @@
 var User = require('../models/User');
 var Game = require('../models/game');
+var Play = require('../models/play');
+var Player = require('../models/player');
+var _ = require('underscore');
 
 var controller = 'plays';
 
@@ -9,15 +12,20 @@ var controller = 'plays';
  */
 
 exports.getPlays = function(req, res) {
-  User.find({}, function (err, users) {
+  User.find({ _id: {'$ne': req.user.id }}, function (err, otherUsers) {
     Game.find({ "_id": { $in: req.user.games }}, function (err, games) {
-      res.render('plays', {
-        title: 'My Plays',
-        games: games,
-        allUsers: users,
-        controller: controller,
-        action: 'get'
-      });
+      // Player.find({ "user":  req.user.id }, function(err, players) {
+        Play.find({ "players": req.user.id }).populate('players game').exec(function(err, plays) {
+          res.render('plays', {
+            title: 'My Plays',
+            games: games,
+            allUsers: otherUsers,
+            plays: plays,
+            controller: controller,
+            action: 'get'
+          });
+        });
+      // });
     });
   });
 };
@@ -28,38 +36,45 @@ exports.getPlays = function(req, res) {
  * Add a play including the user
  */
 
-exports.cratePlay = function(req, res, next) {
+exports.postPlay = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
-    Game.find({ bggId: req.body.game.bggId }, function(err, game) {
-      // console.log(game);
-      // console.log(game[0]);
-      // if (game.length === 0) {
-      //   var newGame = new Game({
-      //     bggId: req.body.game.bggId,
-      //     name: req.body.game.name,
-      //     imageUrl: req.body.game.imageUrl,
-      //     yearPublished: req.body.game.yearPublished
-      //   });
+    Game.findOne({ bggId: req.body.bggId }, function(err, game) {
+      var playersArray  = [];
+      _.each(req.body.players, function(playerID, index){
+        // var newPlayer = new Player({
+        //   score: 0,
+        //   user: playerID
+        // });
+        // newPlayer.save(function(err) {
+        //   if (err) {
+        //     if (err) return next(err);
+        //   }
+        // });
+        // playersArray.push(newPlayer._id);
+        playersArray.push(playerID);
+      });
 
-      //   newGame.save(function(err) {
-      //     if (err) {
-      //       if (err) return next(err);
-      //     }
-      //   });
+      var newPlay = new Play({
+        game: game._id,
+        date: req.body.date,
+        players: playersArray
+      });
 
-      //   if (!user.games.indexOf(newGame._id) >= 0) user.games.push(newGame._id);
-      // } else {
-      //   if (!user.games.indexOf(game[0]._id) >= 0) {
-      //     console.log("Pushing " + game[0]._id);
-      //     user.games.push(game[0]._id);
-      //   }
-      // }
-      // user.save(function(err) {
-      //   if (err) return next(err);
-      // });
+      newPlay.save(function(err) {
+        if (err) {
+          if (err) return next(err);
+        }
 
-      // res.json(newGame || game);
+        Play.findById(newPlay._id).populate('players game').exec(function(err, play) {
+          console.log(play);
+          res.json(play);
+        });
+      });
+
+
+
+      // res.json(newPlay.populate('players game'));
     });
   });
 };
