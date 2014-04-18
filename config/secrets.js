@@ -5,6 +5,11 @@ module.exports = {
 
   localAuth: true,
 
+  gmail: {
+    login: process.env.GMAIL_LOGIN || 'cs4750neu@gmail.com',
+    password: process.env.GMAIL_PASSWORD || 'northeastern'
+  },
+
   mailgun: {
     login: process.env.MAILGUN_LOGIN || 'Your Mailgun SMTP Username',
     password: process.env.MAILGUN_PASSWORD || 'Your Mailgun SMTP Password'
