@@ -13,7 +13,9 @@ PLAYHISTORY.games = {
     $('#gamesTabs a').click(function (e) {
       e.preventDefault()
       $(this).tab('show')
-    })
+    });
+
+    $('.removeGameButton').click(self.removeGame);
   },
 
   displayOwnedGame: function(game, newGame) {
@@ -21,6 +23,11 @@ PLAYHISTORY.games = {
     $row.append($('<td>', { class: 'gameLink' }).append($('<a>', { href: this.boardGameGeekUrl({type:'boardgame', id: game.bggId}), text: game.name})));
     $row.append($('<td>', { text: game.yearPublished }));
     $row.append($('<td>', { class: 'gameThumbnail' }).append($('<img>', { src: game.imageUrl })));
+    $row.append($('<td>').append($('<button>', {
+      class: 'removeGameButton btn btn-danger',
+      text: 'Remove from Collection',
+      'data-bgg-id': game.bggId
+    })));
     if (newGame) {
       $('#ownedGamesTable tbody').prepend($row);
     } else {
@@ -104,6 +111,17 @@ PLAYHISTORY.games = {
 
       PLAYHISTORY.games.ownedGames.push(data);
       PLAYHISTORY.games.displayOwnedGame(data, true);
+      $('.removeGameButton').click(PLAYHISTORY.games.removeGame);
+    });
+  },
+
+  removeGame: function(event) {
+    var self = this;
+    $.post( "account/games/remove", {
+      _csrf: $('#csrf').val(),
+      bggId: $(self).data('bgg-id')
+    }, function( data ) {
+      $(self).parent().parent().remove()
     });
   },
 
