@@ -37,21 +37,23 @@ block content
           input(id='csrf', type='hidden', name='_csrf', value=token)
           .row
             .col-md-4
-              .form-group
+              #gameSelectGroup.form-group
                 label(for=gameSelect) Game
                 select#gameSelect.form-control
+                  option
                 p.help-block Add more games via the game page
 
           .row
             .col-md-4
-              .input-group.date
-                input#date.form-control(type='text', placeholder='Date')
-                span.input-group-addon
-                  i.fa.fa-th
+              #dateSelectGroup.form-group
+                .input-group.date
+                  input#date.form-control(type='text', placeholder='Date')
+                  span.input-group-addon
+                    i.fa.fa-th
 
           .row
             .col-md-4
-              .form-group
+              #playersSelectGroup.form-group
                 label(for=playersSelect) Other Players
                 #user(data-user=user)
                 select#playersSelect.form-control(multiple=true)

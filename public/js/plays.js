@@ -33,8 +33,9 @@ PLAYHISTORY.plays = {
   },
 
   createPlay: function() {
-    $('#formInfo').text('');
-    if (this.validPlay()) {
+    $('#formInfo').empty();
+    var playErrors = this.validatePlay();
+    if (playErrors.length === 0) {
       $.post( "plays", {
         _csrf: $('#csrf').val(),
         bggId: $('#gameSelect').val(),
@@ -49,17 +50,33 @@ PLAYHISTORY.plays = {
         PLAYHISTORY.plays.renderPlay(play);
       });
     } else {
-      $('#formInfo').text('Invalid data');
+      $errorUl = $('<ul>');
+      $.each(playErrors, function(index, error) {
+        $errorUl.append($('<li>', { text: error }));
+      });
+      $('#formInfo').append($('<div>', { class: 'alert alert-danger' }).append($errorUl));
     }
 
   },
 
-  validPlay: function() {
-    if ($('#playersSelect').val()){
-      return true;  
-    } else {
-      return false;
+  validatePlay: function() {
+    var errors = [];
+    $('.has-error').removeClass('has-error');
+    if (!$('#playersSelect').val()) {
+      $('#playersSelectGroup').addClass('has-error');
+      errors.push("Must select at least one other player.");
     }
-    
+
+    if (!$('#gameSelect').val()) {
+      $('#gameSelectGroup').addClass('has-error');
+      errors.push("Must select a game.");
+    }
+
+    if (!$('#date').val()) {
+      $('#dateGroup').addClass('has-error');
+      errors.push("Must select a date.");
+    }
+
+    return errors;
   }
 }
