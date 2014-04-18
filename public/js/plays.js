@@ -15,11 +15,11 @@ PLAYHISTORY.plays = {
     });
 
     $.each($('#pastPlays').data('plays'), function(index, play) {
-      PLAYHISTORY.plays.renderPlay(play);
+      PLAYHISTORY.plays.renderPlay(play, false);
     });
   },
 
-  renderPlay: function(play) {
+  renderPlay: function(play, newPlay) {
     var date = new Date(play.date);
     var $row = $('<tr>', { id: 'play-' + play.id });
     $row.append($('<td>', { text: play.game.name }));//{ class: 'gameLink' }).append($('<a>', { href: this.boardGameGeekUrl({type:'boardgame', id: game.bggId}), text: game.name})));
@@ -29,7 +29,11 @@ PLAYHISTORY.plays = {
       $playersColumn.append($('<span>', { class: 'playerSpan', text: player.email }));
     });
     $row.append($playersColumn);
-    $('#pastPlaysTable tbody').append($row);
+    if (newPlay) {
+      $('#pastPlaysTable tbody').prepend($row);
+    } else {
+      $('#pastPlaysTable tbody').append($row);
+    }
   },
 
   createPlay: function() {
@@ -47,7 +51,7 @@ PLAYHISTORY.plays = {
         $('#date').val('');
         $('#playersSelect').val('');
         $('#formInfo').text('Play saved!');
-        PLAYHISTORY.plays.renderPlay(play);
+        PLAYHISTORY.plays.renderPlay(play, true);
       });
     } else {
       $errorUl = $('<ul>');

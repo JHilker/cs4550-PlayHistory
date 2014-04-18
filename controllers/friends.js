@@ -6,7 +6,7 @@ var User = require('../models/User');
  */
 
 exports.getFriends = function(req, res) {
-  User.find({}, function (err, users) {
+  User.find().sort([['email', 'ascending']]).exec(function (err, users) {
     res.render('friends', {
       title: 'My Friends',
       allUsers: users
