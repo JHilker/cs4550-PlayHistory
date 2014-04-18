@@ -29,7 +29,7 @@ PLAYHISTORY.plays = {
       $playersColumn.append($('<span>', { class: 'playerSpan', text: player.email }));
     });
     $row.append($playersColumn);
-    $('#pastPlaysTable').append($row);
+    $('#pastPlaysTable tbody').append($row);
   },
 
   createPlay: function() {

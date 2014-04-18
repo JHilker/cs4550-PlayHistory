@@ -19,10 +19,12 @@ block content
       h4 Past Plays
       #pastPlays(class="hidden", data-plays=plays)
       table#pastPlaysTable.table
-        tr
-          th Game
-          th Date
-          th Players
+        thead
+          tr
+            th Game
+            th Date
+            th Players
+        tbody
 
     #recordPlayTab.tab-pane
       .container-fluid
