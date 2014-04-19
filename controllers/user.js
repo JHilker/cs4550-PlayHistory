@@ -421,3 +421,26 @@ exports.postAddGame = function(req, res, next) {
     });
   });
 };
+
+/**
+ * POST /account/games/remove
+ * Remove game from user
+ */
+
+exports.removeGame = function(req, res, next) {
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+    Game.find({ bggId: req.body.bggId }, function(err, game) {
+      var index = user.games.indexOf(game[0]._id);
+      if (index > -1) {
+        user.games.splice(index, 1);
+        user.save(function(err) {
+          if (err) return next(err);
+          res.json(user);
+        });
+      } else {
+        console.log('Invalid bggId to remove');
+      }
+    });
+  });
+};

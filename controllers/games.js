@@ -9,7 +9,7 @@ var Game = require('../models/game');
 var controller = 'games';
 
 exports.getGames = function(req, res) {
-  Game.find({ "_id": { $in: req.user.games }}, function (err, games) {
+  Game.find({ "_id": { $in: req.user.games }}).sort([['name', 'ascending']]).exec(function (err, games) {
     res.render('games', {
       title: 'My Games',
       games: games,

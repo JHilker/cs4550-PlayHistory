@@ -15,7 +15,7 @@ exports.getPlays = function(req, res) {
   User.find({ _id: {'$ne': req.user.id }}, function (err, otherUsers) {
     Game.find({ "_id": { $in: req.user.games }}, function (err, games) {
       // Player.find({ "user":  req.user.id }, function(err, players) {
-        Play.find({ "players": req.user.id }).populate('players game').exec(function(err, plays) {
+        Play.find({ "players": req.user.id }).sort([['date', 'descending']]).populate('players game').exec(function(err, plays) {
           res.render('plays', {
             title: 'My Plays',
             games: games,

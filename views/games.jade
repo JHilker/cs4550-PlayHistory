@@ -20,10 +20,13 @@ block content
       h4 In Collection
       #ownedGames(class="hidden", data-games=games)
       table#ownedGamesTable.table
-        tr
-          th Name
-          th Year Published
-          th Image
+        thead
+          tr
+            th Name
+            th Year Published
+            th Image
+            th Remove
+        tbody
 
     #findMoreTab.tab-pane
       h4 Find More
@@ -38,8 +41,10 @@ block content
       input(id='csrf', type='hidden', name='_csrf', value=token)
 
       table#searchResults.table
-        tr
-          th Name
-          th Year Published
-          th Image
-          th Add Game
+        thead
+          tr
+            th Name
+            th Year Published
+            th Image
+            th Add Game
+        tbody

@@ -127,6 +127,7 @@ app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 
 app.post('/account/games/add', passportConf.isAuthenticated, userController.postAddGame);
+app.post('/account/games/remove', passportConf.isAuthenticated, userController.removeGame);
 
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
